@@ -1,7 +1,0 @@
-baseURL = "/"
-languageCode = "en-us"
-title = "Mind Refactor"
-theme = "ananke"
-
-[params]
-  description = "Mind Refactor is a blog about software development, programming, and technology."

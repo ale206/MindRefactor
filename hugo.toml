@@ -1,0 +1,36 @@
+# This is your single, definitive configuration file.
+
+# --- Settings from your config.toml ---
+baseURL = "/"
+languageCode = "en-us"
+title = "Mind Refactor"
+theme = "ananke"
+
+[taxonomies]
+  category = "categories"
+  tag = "tags"
+
+# --- Settings from your previous hugo.toml attempt ---
+[module.hugoVersion]
+  min = "0.128.0"
+
+# --- Menu configuration ---
+[[menu.main]]
+  name = "About"
+  url = "/about/"
+  weight = 1
+
+[[menu.main]]
+  name = "Articles"
+  url = "/posts/"
+  weight = 2
+
+# --- All theme parameters grouped together ---
+[params]
+  # Site description from config.toml
+  description = "Mind Refactor is a blog about software development, programming, and technology."
+
+  # Social links for Ananke theme
+  [[params.ananke_socials]]
+    name = "linkedin"
+    url = "https://www.linkedin.com/in/your-real-profile-url" # <-- Make sure to use your actual URL
