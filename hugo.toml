@@ -25,6 +25,9 @@ theme = "ananke"
 [params]
   description = "Mind Refactor is a blog about software development, programming, and technology."
 
+  # ADD THIS LINE with the path to your image
+  featured_image = "/images/header-background.jpg"
+  
   [params.ananke]
     main_css = "ananke/css/main.css"
 
