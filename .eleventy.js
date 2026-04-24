@@ -64,8 +64,7 @@ module.exports = function (eleventyConfig) {
     templateFormats: ["njk", "md", "html"],
     markdownTemplateEngine: "njk",
     htmlTemplateEngine: "njk",
-    // ⚠️  Set to "/MindRefactor/" for GitHub Pages without a custom domain
-    pathPrefix: "/MindRefactor/",
+    pathPrefix: "/",
     dir: {
       input: "src",
       output: "_site",
