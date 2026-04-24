@@ -17,6 +17,16 @@ permalink: /en/articles/index.html
     <li class="archive-item">
       <time class="post-card-date" datetime="{{ post.date | isoDate }}">{{ post.date | readableDate("en-GB") }}</time>
       <a href="{{ post.url | url }}" class="archive-title">{{ post.data.title }}</a>
+      
+      {# ── Tags for archive item ── #}
+      {% if post.data.postTags and post.data.postTags.length %}
+      <div class="tag-cloud" style="margin-top: 0.25rem; margin-bottom: 0.25rem;">
+        {% for t in post.data.postTags %}
+        <a href="{{ ('/en/tags/' + t + '/') | url }}" class="tag-pill">{{ t }}</a>
+        {% endfor %}
+      </div>
+      {% endif %}
+
       {% if post.data.description %}
       <p class="archive-desc">{{ post.data.description }}</p>
       {% endif %}

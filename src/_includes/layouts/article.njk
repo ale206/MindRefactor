@@ -13,10 +13,6 @@ layout: base.njk
 
       <h1 class="article-title">{{ title }}</h1>
 
-      {% if description %}
-      <p class="article-description">{{ description }}</p>
-      {% endif %}
-
       {# ── Article tags ── #}
       {% if postTags and postTags.length %}
       <div class="article-tags">
@@ -24,6 +20,10 @@ layout: base.njk
         <a href="{{ ('/en/tags/' + t + '/') | url }}" class="tag-pill">{{ t }}</a>
         {% endfor %}
       </div>
+      {% endif %}
+
+      {% if description %}
+      <p class="article-description">{{ description }}</p>
       {% endif %}
     </header>
 
@@ -40,7 +40,12 @@ layout: base.njk
     {# ── Tag cloud ── #}
     {{ tagCloud(collections.tagListEn, "en") }}
 
-    <h3 class="sidebar-title" style="margin-top:1.75rem;">Recent articles</h3>
+    <h3 class="sidebar-title" style="margin-top:1.75rem;">About me</h3>
+    <div style="margin-bottom: 2rem;">
+      <a href="https://alessiodisalvo.it" target="_blank" rel="noopener noreferrer" style="font-size: 0.85rem; font-weight: 500; color: var(--color-accent); text-decoration: underline;">Discover more about me on alessiodisalvo.it →</a>
+    </div>
+
+    <h3 class="sidebar-title">Recent articles</h3>
     <ol class="post-list" reversed>
       {% for post in collections.postsEn | excludeAndLimit(page.url, 5) %}
         <li class="post-card">
