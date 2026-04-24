@@ -1,6 +1,6 @@
 ---
 layout: base.njk
-title: MindRefactor Blog
+title: Mind Refactor
 lang: en
 description: Product updates and essays on software, product thinking, and building in public.
 permalink: /en/index.html
@@ -8,8 +8,6 @@ permalink: /en/index.html
 {% from "macros/tagcloud.njk" import tagCloud %}
 
 <section class="post-list-page">
-  <header class="post-list-header">
-  </header>
 
   {% set latestPost = collections.postsEn[0] %}
 
@@ -18,7 +16,7 @@ permalink: /en/index.html
 
     <article class="featured-post">
       <div class="featured-hero-image">
-        <img src="{{ '/assets/img/wished-place.png' | url }}" alt="Pinned building on a map" />
+        <img src="{{ '/assets/img/mind-refactor-home.png' | url }}" alt="Exploring how technology reshapes our world" />
       </div>
       <header class="featured-header">
         <time datetime="{{ latestPost.date | isoDate }}">{{ latestPost.date | readableDate }}</time>
@@ -56,4 +54,3 @@ permalink: /en/index.html
   {% endif %}
 
 </section>
-

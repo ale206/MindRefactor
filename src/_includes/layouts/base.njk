@@ -20,7 +20,7 @@
   <meta property="og:description" content="{{ description | default(site.description) }}" />
   <meta property="og:type" content="{% if layout == 'article' %}article{% else %}website{% endif %}" />
   <meta property="og:url" content="{{ site.url }}{{ page.url }}" />
-  <meta property="og:site_name" content="MindRefactor" />
+  <meta property="og:site_name" content="Mind Refactor" />
 
   <link rel="stylesheet" href="{{ '/css/blog.css' | url }}" />
   <link rel="icon" href="{{ '/assets/favicon/favicon.ico' | url }}" sizes="32x32" />
@@ -69,7 +69,11 @@
   <header class="site-header">
     <div class="header-inner">
       <a href="{{ '/' | url }}" class="brand" aria-label="MindRefactor home">
-        <span class="brand-name">MindRefactor</span>
+        <img
+          src="{{ '/assets/img/mind-refactor-logo-banner.png' | url }}"
+          alt="Mind Refactor"
+          class="brand-logo"
+        />
       </a>
       <nav class="header-nav" aria-label="Site navigation">
       </nav>

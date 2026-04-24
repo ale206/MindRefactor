@@ -1,6 +1,6 @@
 module.exports = {
-  title: "MindRefactor Blog",
-  description: "Product updates and essays on software, product thinking, and building in public.",
+  title: "Mind Refactor",
+  description: "Exploring how technology reshapes our world | Insights on Programming, Startups, Management & Leadership",
   url: "https://www.mindrefactor.com",
   languages: [
     { code: "en", label: "English" }
