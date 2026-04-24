@@ -1,0 +1,14 @@
+{
+  "name": "mindrefactor",
+  "version": "1.0.0",
+  "description": "Mind Refactor – Exploring how technology reshapes our world | Insights on Programming, Startups, Management & Leadership",
+  "scripts": {
+    "build": "eleventy",
+    "start": "eleventy --serve",
+    "watch": "eleventy --watch"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^2.0.1"
+  }
+}
+

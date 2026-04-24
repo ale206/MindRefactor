@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="{{ lang | default('en') }}">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>{% if title and title != site.title %}{{ title }} — {{ site.title }}{% else %}{{ site.title }}{% endif %}</title>
+  <meta name="description" content="{{ description | default(site.description) }}" />
+
+  {# ── hreflang alternate links (set in article frontmatter) ── #}
+  {% if translations %}
+    {% for t in translations %}
+    <link rel="alternate" hreflang="{{ t.lang }}" href="{{ site.url }}{{ t.url }}" />
+    {% endfor %}
+    <link rel="alternate" hreflang="x-default" href="{{ site.url }}/en/" />
+  {% endif %}
+
+  {# ── Open Graph ── #}
+  <meta property="og:title" content="{{ title | default(site.title) }}" />
+  <meta property="og:description" content="{{ description | default(site.description) }}" />
+  <meta property="og:type" content="{% if layout == 'article' %}article{% else %}website{% endif %}" />
+  <meta property="og:url" content="{{ site.url }}{{ page.url }}" />
+  <meta property="og:site_name" content="Mind Refactor" />
+
+  <link rel="stylesheet" href="{{ '/css/blog.css' | url }}" />
+  <link rel="icon" href="{{ '/assets/favicon/favicon.ico' | url }}" sizes="32x32" />
+  <link rel="icon" href="{{ '/assets/favicon/favicon.svg' | url }}" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="{{ '/assets/favicon/apple-touch-icon.png' | url }}" />
+  <link rel="manifest" href="{{ '/assets/favicon/site.webmanifest' | url }}" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- Consent Manager -->
+  <script
+    type="text/javascript"
+    data-cmp-ab="1"
+    src="https://cdn.consentmanager.net/delivery/autoblocking/96e0b57bc2161.js"
+    data-cmp-host="b.delivery.consentmanager.net"
+    data-cmp-cdn="cdn.consentmanager.net"
+    data-cmp-codesrc="16">
+  </script>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-J1B0P9V70E"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-J1B0P9V70E');
+  </script>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="{{ '/' | url }}" class="brand" aria-label="MindRefactor home">
+        <img
+          src="{{ '/assets/img/mind-refactor-logo-banner.png' | url }}"
+          alt="Mind Refactor"
+          class="brand-logo"
+        />
+      </a>
+      <nav class="header-nav" aria-label="Site navigation">
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content">
+    {{ content | safe }}
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-brand">
+        <a href="{{ '/' | url }}">MindRefactor</a>
+      </p>
+      <p class="footer-copy">&copy; {{ site.currentYear }} MindRefactor. All rights reserved.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
+

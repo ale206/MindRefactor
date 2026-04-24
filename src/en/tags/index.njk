@@ -1,0 +1,33 @@
+---
+layout: base.njk
+lang: en
+pagination:
+  data: collections.tagListEn
+  size: 1
+  alias: tagItem
+permalink: "/en/tags/{{ tagItem.tag }}/"
+eleventyComputed:
+  title: "Articles tagged: {{ tagItem.tag }}"
+---
+
+<section class="post-list-page">
+  <header class="archive-header">
+    <a href="{{ '/en/' | url }}" class="breadcrumb-back">← Blog</a>
+    <h1>Tagged: <span class="tag-pill tag-pill--lg">{{ tagItem.tag }}</span></h1>
+  </header>
+
+  <ol class="archive-list">
+    {% for post in collections.postsEn | filterByTag(tagItem.tag) %}
+    <li class="archive-item">
+      <time class="post-card-date" datetime="{{ post.date | isoDate }}">{{ post.date | readableDate("en-GB") }}</time>
+      <a href="{{ post.url | url }}" class="archive-title">{{ post.data.title }}</a>
+      {% if post.data.description %}
+      <p class="archive-desc">{{ post.data.description }}</p>
+      {% endif %}
+    </li>
+    {% else %}
+    <li class="archive-item"><p>No articles yet.</p></li>
+    {% endfor %}
+  </ol>
+</section>
+

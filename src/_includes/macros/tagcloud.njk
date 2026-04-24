@@ -1,0 +1,21 @@
+{# 
+  Usage: {% from "_includes/macros/tagcloud.njk" import tagCloud %}
+         {{ tagCloud(collections.tagListEn, lang) }}
+#}
+{% macro tagCloud(tagList, lang) %}
+{% if tagList and tagList.length %}
+<div class="sidebar-tags">
+  <h3 class="sidebar-title">
+    {% if lang == 'it' %}Argomenti
+    {% elif lang == 'es' %}Temas
+    {% else %}Topics{% endif %}
+  </h3>
+  <div class="tag-cloud">
+    {% for item in tagList %}
+    <a href="{{ ('/' + lang + '/tags/' + item.tag + '/') | url }}" class="tag-pill">{{ item.tag }}</a>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+{% endmacro %}
+
