@@ -25,7 +25,9 @@
 /* ── Reset ───────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-html { -webkit-text-size-adjust: 100%; }
+html {
+  -webkit-text-size-adjust: 100%;
+}
 
 body {
   font-family: var(--font-sans);
@@ -36,9 +38,14 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 }
 
-main { flex: 1; }
+main { 
+  flex: 1; 
+  width: 100%;
+}
 
 a {
   color: var(--color-link);
@@ -63,7 +70,7 @@ img { max-width: 100%; display: block; }
   max-width: var(--max-width-wide);
   margin: 0 auto;
   padding: 0 1.5rem;
-  height: 126px;
+  min-height: 80px;            /* flexible instead of fixed height */
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -76,9 +83,9 @@ img { max-width: 100%; display: block; }
   text-decoration: none;
 }
 .brand-logo { 
-  height: 120px;
-  width: auto; 
-  max-width: none;   /* prevent global img max-width from distorting proportions */
+  max-height: 120px;          /* was height: 120px — max-height lets both   */
+  width: auto;                /* dimensions scale down proportionally when   */
+  max-width: 100%;            /* the container is narrower than 600px        */
   display: block; 
 }
 
@@ -207,6 +214,7 @@ img { max-width: 100%; display: block; }
   max-width: var(--max-width-wide);
   margin: 0 auto;
   padding: 1.75rem 1.5rem 5rem;
+  overflow: clip;              /* contain wide children without breaking sticky */
 }
 
 .post-list-header {
@@ -261,14 +269,35 @@ img { max-width: 100%; display: block; }
 /* ── Split Layout (Featured + Sidebar) ─── */
 .blog-split-layout {
   display: grid;
-  grid-template-columns: 3fr 1fr;
+  /* minmax(0, Nfr) constrains each column's minimum to 0, so wide content
+     (code blocks, images) cannot force a column—and thus the page—wider
+     than the available viewport. */
+  grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
   gap: 4rem;
   align-items: start;
+  width: 100%;
+}
+/* Belt-and-suspenders: also set min-width on items themselves */
+.blog-split-layout > * {
+  min-width: 0;
+}
+.featured-post,
+.sidebar-posts {
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;            /* hard clip – nothing inside can widen the page */
 }
 @media (max-width: 900px) {
   .blog-split-layout {
-    grid-template-columns: 1fr;
-    gap: 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2.25rem;
+  }
+
+  .featured-post,
+  .sidebar-posts {
+    width: 100%;
+    max-width: 100%;
   }
 }
 
@@ -443,6 +472,7 @@ img { max-width: 100%; display: block; }
   flex-wrap: wrap;
   gap: 0.4rem;
   margin-top: 0.5rem;
+  max-width: 100%;
 }
 .tag-pill {
   display: inline-block;
@@ -457,6 +487,7 @@ img { max-width: 100%; display: block; }
   background: var(--color-surface);
   transition: border-color 0.15s, color 0.15s, background 0.15s;
   white-space: nowrap;
+  max-width: 100%;
 }
 .tag-pill:hover {
   border-color: var(--color-text);
@@ -475,11 +506,18 @@ img { max-width: 100%; display: block; }
   flex-wrap: wrap;
   gap: 0.4rem;
   margin-top: 0.75rem;
+  max-width: 100%;
+}
+
+.sidebar-posts a[href^="https://alessiodisalvo.it"] {
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 /* ── Featured hero image ─────────────────── */
 .featured-hero-image {
   width: 100%;
+  max-width: 100%;
   aspect-ratio: 16 / 9;
   overflow: hidden;
   border-radius: calc(var(--radius) * 2);
@@ -498,6 +536,7 @@ img { max-width: 100%; display: block; }
   max-width: var(--max-width);
   margin: 0 auto;
   padding: 1.75rem 1.5rem 5rem;
+  overflow: clip;
 }
 
 .article-header {
@@ -573,6 +612,7 @@ img { max-width: 100%; display: block; }
   font-size: 1.05rem;
   line-height: 1.8;
   color: #2a2a2a;
+  overflow: hidden;            /* contain wide code blocks / tables */
 }
 
 .article-body h2 {
@@ -633,7 +673,10 @@ img { max-width: 100%; display: block; }
   border: 1px solid var(--color-border);
   border-radius: var(--radius);
   padding: 1.25rem;
-  overflow-x: auto;
+  display: block;
+  width: 100%;
+  overflow-x: auto;   /* horizontal scroll inside the block, not the page */
+  max-width: 100%;    /* never wider than its grid column */
   margin-bottom: 1.4rem;
 }
 .article-body pre code { background: none; padding: 0; }
@@ -668,9 +711,9 @@ img { max-width: 100%; display: block; }
     padding-right: 1rem;
   }
   .brand-logo {
-    height: 52px;     /* reduced from 120px — keeps correct proportions */
+    max-height: 52px; /* reduced from 120px — keeps correct proportions */
     width: auto;
-    max-width: none;
+    max-width: 100%;
   }
   .header-nav { gap: 1rem; }
 
@@ -684,12 +727,14 @@ img { max-width: 100%; display: block; }
 
   /* Force single-column grid on small screens */
   .lang-index-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .tag-pill {
+    white-space: normal;
   }
 
   .footer-inner { flex-direction: column; align-items: flex-start; }
 }
 
-/* Prevent any element from causing horizontal scroll */
-body { overflow-x: hidden; }
 
