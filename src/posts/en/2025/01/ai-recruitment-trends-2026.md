@@ -2,7 +2,7 @@
 title: "The AI Revolution in Recruitment: Are Human Recruiters Becoming Obsolete?"
 slug: ai-recruitment-trends-2026
 date: 2025-01-10
-postTags: [AI Recruitment]
+postTags: [AI, Recruitment]
 description: >
   Explore how AI is transforming hiring in 2026. From automated video interviews to bias challenges, find out if AI is replacing or empowering recruiters.
 ---

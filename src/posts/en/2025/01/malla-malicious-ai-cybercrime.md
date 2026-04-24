@@ -2,7 +2,7 @@
 title: "Malla: The Growing Threat of Malicious AI Applications in Cybercrime"
 slug: malla-malicious-ai-cybercrime
 date: 2025-01-13
-postTags: [AI Security]
+postTags: [AI, Security]
 description: >
   Malla (Malicious LLM Applications) is democratizing cybercrime. Learn how jailbroken AI is being used to automate malware and phishing.
 ---

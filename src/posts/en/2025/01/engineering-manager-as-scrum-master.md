@@ -2,7 +2,7 @@
 title: "Can a Software Engineering Manager Also Be a Scrum Master? Navigating the Dual Role"
 slug: engineering-manager-as-scrum-master
 date: 2025-01-23
-postTags: [Agile Management]
+postTags: [Agile, Management]
 description: >
   Explore the challenges and benefits of the EM/Scrum Master dual role in 2026. Learn how to balance authority with servant leadership in Agile teams.
 ---
