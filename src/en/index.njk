@@ -1,0 +1,59 @@
+---
+layout: base.njk
+title: MindRefactor Blog
+lang: en
+description: Product updates and essays on software, product thinking, and building in public.
+permalink: /en/index.html
+---
+{% from "macros/tagcloud.njk" import tagCloud %}
+
+<section class="post-list-page">
+  <header class="post-list-header">
+  </header>
+
+  {% set latestPost = collections.postsEn[0] %}
+
+  {% if latestPost %}
+  <div class="blog-split-layout">
+
+    <article class="featured-post">
+      <div class="featured-hero-image">
+        <img src="{{ '/assets/img/wished-place.png' | url }}" alt="Pinned building on a map" />
+      </div>
+      <header class="featured-header">
+        <time datetime="{{ latestPost.date | isoDate }}">{{ latestPost.date | readableDate }}</time>
+        <h2><a href="{{ latestPost.url | url }}">{{ latestPost.data.title }}</a></h2>
+      </header>
+      <div class="article-body">
+        {{ latestPost.templateContent | safe }}
+      </div>
+    </article>
+
+    <aside class="sidebar-posts">
+      {{ tagCloud(collections.tagListEn, "en") }}
+      <h3 class="sidebar-title" style="margin-top:1.75rem;">Recent articles</h3>
+      <ol class="post-list" reversed>
+        {% for post in collections.postsEn %}
+          {% if loop.index0 > 0 and loop.index0 <= 5 %}
+          <li class="post-card">
+            <time class="post-card-date" datetime="{{ post.date | isoDate }}">
+              {{ post.date | readableDate }}
+            </time>
+            <a href="{{ post.url | url }}" class="post-card-title">{{ post.data.title }}</a>
+            {% if post.data.description %}
+            <p class="post-card-desc">{{ post.data.description }}</p>
+            {% endif %}
+          </li>
+          {% endif %}
+        {% endfor %}
+      </ol>
+      <a href="{{ '/en/articles/' | url }}" class="sidebar-all-link">All articles →</a>
+    </aside>
+
+  </div>
+  {% else %}
+    <p class="post-list-empty">No articles yet — check back soon.</p>
+  {% endif %}
+
+</section>
+

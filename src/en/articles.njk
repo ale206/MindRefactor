@@ -1,0 +1,27 @@
+---
+layout: base.njk
+title: All Articles
+lang: en
+description: Complete list of MindRefactor Blog articles.
+permalink: /en/articles/index.html
+---
+
+<section class="post-list-page">
+  <header class="archive-header">
+    <a href="{{ '/en/' | url }}" class="breadcrumb-back">← Back to Blog</a>
+    <h1>All Articles <span class="lang-label">EN</span></h1>
+  </header>
+
+  <ol class="archive-list">
+    {% for post in collections.postsEn %}
+    <li class="archive-item">
+      <time class="post-card-date" datetime="{{ post.date | isoDate }}">{{ post.date | readableDate("en-GB") }}</time>
+      <a href="{{ post.url | url }}" class="archive-title">{{ post.data.title }}</a>
+      {% if post.data.description %}
+      <p class="archive-desc">{{ post.data.description }}</p>
+      {% endif %}
+    </li>
+    {% endfor %}
+  </ol>
+</section>
+

@@ -1,0 +1,14 @@
+{
+  "name": "mindrefactor",
+  "version": "1.0.0",
+  "description": "MindRefactor – product updates and essays on software, product thinking, and building in public",
+  "scripts": {
+    "build": "eleventy",
+    "start": "eleventy --serve",
+    "watch": "eleventy --watch"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^2.0.1"
+  }
+}
+
