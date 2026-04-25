@@ -2,6 +2,7 @@
 layout: base.njk
 ---
 {% from "macros/tagcloud.njk" import tagCloud %}
+{% set heroImage = date | postImagePath(slug) %}
 
 <div class="post-list-page blog-split-layout">
 
@@ -27,6 +28,17 @@ layout: base.njk
       {% endif %}
     </header>
 
+    {# ── Hero image (optional — shown only when the file exists) ── #}
+    {% if heroImage %}
+    <div class="article-hero">
+      <img
+        src="{{ heroImage | url }}"
+        alt="{{ title }}"
+        class="article-hero-img"
+      />
+    </div>
+    {% endif %}
+
     <div class="article-body">
       {{ content | safe }}
     </div>
@@ -41,18 +53,27 @@ layout: base.njk
     {{ tagCloud(collections.tagListEn, "en") }}
 
     <h3 class="sidebar-title" style="margin-top:1.75rem;">About me</h3>
-    <div style="margin-bottom: 2rem;">
-      <a href="https://alessiodisalvo.it" target="_blank" rel="noopener noreferrer" style="font-size: 0.85rem; font-weight: 500; color: var(--color-accent); text-decoration: underline;">Discover more about me on alessiodisalvo.it →</a>
+    <div class="about-me-block">
+      <img src="{{ '/assets/img/alessio-di-salvo.png' | url }}" alt="Alessio Di Salvo" class="about-me-photo" />
+      <a href="https://alessiodisalvo.it" target="_blank" rel="noopener noreferrer" class="about-me-link">Discover more about me on alessiodisalvo.it</a>
     </div>
 
     <h3 class="sidebar-title">Recent articles</h3>
     <ol class="post-list" reversed>
       {% for post in collections.postsEn | excludeAndLimit(page.url, 5) %}
+        {% set thumb = post.date | postImagePath(post.data.slug) %}
         <li class="post-card">
-          <time class="post-card-date" datetime="{{ post.date | isoDate }}">
-            {{ post.date | readableDate("en-GB") }}
-          </time>
-          <a href="{{ post.url | url }}" class="post-card-title">{{ post.data.title }}</a>
+          {% if thumb %}
+          <a href="{{ post.url | url }}" class="post-card-thumb-link" tabindex="-1" aria-hidden="true">
+            <img src="{{ thumb | url }}" alt="{{ post.data.title }}" class="post-card-thumb" />
+          </a>
+          {% endif %}
+          <div class="post-card-content">
+            <time class="post-card-date" datetime="{{ post.date | isoDate }}">
+              {{ post.date | readableDate("en-GB") }}
+            </time>
+            <a href="{{ post.url | url }}" class="post-card-title">{{ post.data.title }}</a>
+          </div>
         </li>
       {% endfor %}
     </ol>

@@ -3,7 +3,11 @@ layout: base.njk
 title: All Articles
 lang: en
 description: Complete list of Mind Refactor articles.
-permalink: /en/articles/index.html
+pagination:
+  data: collections.postsEn
+  size: 12
+  alias: paginatedPosts
+permalink: "/en/articles/{% if pagination.pageNumber > 0 %}{{ pagination.pageNumber + 1 }}/{% endif %}index.html"
 ---
 
 <section class="post-list-page">
@@ -13,25 +17,64 @@ permalink: /en/articles/index.html
   </header>
 
   <ol class="archive-list">
-    {% for post in collections.postsEn %}
-    <li class="archive-item">
-      <time class="post-card-date" datetime="{{ post.date | isoDate }}">{{ post.date | readableDate("en-GB") }}</time>
-      <a href="{{ post.url | url }}" class="archive-title">{{ post.data.title }}</a>
-      
-      {# ── Tags for archive item ── #}
-      {% if post.data.postTags and post.data.postTags.length %}
-      <div class="tag-cloud" style="margin-top: 0.25rem; margin-bottom: 0.25rem;">
-        {% for t in post.data.postTags %}
-        <a href="{{ ('/en/tags/' + t + '/') | url }}" class="tag-pill">{{ t }}</a>
-        {% endfor %}
-      </div>
-      {% endif %}
+    {% for post in paginatedPosts %}
+    {% set thumb = post.date | postImagePath(post.data.slug) %}
+    <li class="archive-item{% if thumb %} has-thumb{% endif %}">
+      <div class="archive-item-content">
+        <time class="post-card-date" datetime="{{ post.date | isoDate }}">{{ post.date | readableDate("en-GB") }}</time>
+        <a href="{{ post.url | url }}" class="archive-title">{{ post.data.title }}</a>
 
-      {% if post.data.description %}
-      <p class="archive-desc">{{ post.data.description }}</p>
+        {# ── Tags for archive item ── #}
+        {% if post.data.postTags and post.data.postTags.length %}
+        <div class="tag-cloud" style="margin-top: 0.25rem; margin-bottom: 0.25rem;">
+          {% for t in post.data.postTags %}
+          <a href="{{ ('/en/tags/' + t + '/') | url }}" class="tag-pill">{{ t }}</a>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if post.data.description %}
+        <p class="archive-desc">{{ post.data.description }}</p>
+        {% endif %}
+      </div>
+
+      {% if thumb %}
+      <a href="{{ post.url | url }}" class="archive-item-thumb-link" tabindex="-1" aria-hidden="true">
+        <img src="{{ thumb | url }}" alt="{{ post.data.title }}" class="archive-item-thumb" />
+      </a>
       {% endif %}
     </li>
     {% endfor %}
   </ol>
+
+  {# ── Pagination nav ── #}
+  {% if pagination.pages.length > 1 %}
+  <nav class="pagination-nav" aria-label="Articles pagination">
+    {% if pagination.href.previous %}
+    <a href="{{ pagination.href.previous | url }}" class="pagination-btn" aria-label="Previous page">← Prev</a>
+    {% else %}
+    <span class="pagination-btn pagination-btn--disabled">← Prev</span>
+    {% endif %}
+
+    <ol class="pagination-pages">
+      {% for pageUrl in pagination.hrefs %}
+      <li>
+        {% if loop.index0 == pagination.pageNumber %}
+        <span class="pagination-page pagination-page--active" aria-current="page">{{ loop.index }}</span>
+        {% else %}
+        <a href="{{ pageUrl | url }}" class="pagination-page">{{ loop.index }}</a>
+        {% endif %}
+      </li>
+      {% endfor %}
+    </ol>
+
+    {% if pagination.href.next %}
+    <a href="{{ pagination.href.next | url }}" class="pagination-btn" aria-label="Next page">Next →</a>
+    {% else %}
+    <span class="pagination-btn pagination-btn--disabled">Next →</span>
+    {% endif %}
+  </nav>
+  {% endif %}
+
 </section>
 

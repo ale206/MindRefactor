@@ -1,3 +1,6 @@
+const fs = require("fs");
+const path = require("path");
+
 module.exports = function (eleventyConfig) {
 
   // ─── Passthrough: existing landing page assets ──────────────────────────
@@ -31,6 +34,20 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addFilter("isoDate", (dateObj) => {
     const d = dateObj instanceof Date ? dateObj : new Date(dateObj);
     return d.toISOString().slice(0, 10);
+  });
+
+  // Returns the URL path to the article's hero image if it exists, or "" if not.
+  // Convention: /assets/img/YYYY/MM/{slug}.png|.webp  (image file in src/assets/img/YYYY/MM/)
+  eleventyConfig.addFilter("postImagePath", (dateObj, slug) => {
+    const d = dateObj instanceof Date ? dateObj : new Date(dateObj);
+    const year = d.getUTCFullYear();
+    const month = String(d.getUTCMonth() + 1).padStart(2, "0");
+    for (const ext of ["png", "webp", "jpg", "jpeg"]) {
+      const relUrl = `/assets/img/${year}/${month}/${slug}.${ext}`;
+      const filePath = path.join(__dirname, "src", relUrl);
+      if (fs.existsSync(filePath)) return relUrl;
+    }
+    return "";
   });
 
   // Exclude a URL and return at most `limit` items — used for sidebars

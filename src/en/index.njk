@@ -12,12 +12,10 @@ permalink: /en/index.html
   {% set latestPost = collections.postsEn[0] %}
 
   {% if latestPost %}
+  {% set featuredImage = latestPost.date | postImagePath(latestPost.data.slug) %}
   <div class="blog-split-layout">
 
     <article class="featured-post">
-      <div class="featured-hero-image">
-        <img src="{{ '/assets/img/mind-refactor-home.png' | url }}" alt="Exploring how technology reshapes our world" />
-      </div>
       <header class="featured-header">
         <time datetime="{{ latestPost.date | isoDate }}">{{ latestPost.date | readableDate }}</time>
         <h2><a href="{{ latestPost.url | url }}">{{ latestPost.data.title }}</a></h2>
@@ -30,6 +28,14 @@ permalink: /en/index.html
           {% endfor %}
         </div>
         {% endif %}
+
+        {# ── Featured image (after tags) ── #}
+        <div class="featured-hero-image">
+          <img
+            src="{{ (featuredImage if featuredImage else '/assets/img/mind-refactor-home.png') | url }}"
+            alt="{{ latestPost.data.title }}"
+          />
+        </div>
       </header>
       <div class="article-body">
         {{ latestPost.templateContent | safe }}
@@ -40,32 +46,41 @@ permalink: /en/index.html
       {{ tagCloud(collections.tagListEn, "en") }}
       
       <h3 class="sidebar-title" style="margin-top:1.75rem;">About me</h3>
-      <div style="margin-bottom: 2rem;">
-        <a href="https://alessiodisalvo.it" target="_blank" rel="noopener noreferrer" style="font-size: 0.85rem; font-weight: 500; color: var(--color-accent); text-decoration: underline;">Discover more about me on alessiodisalvo.it →</a>
+      <div class="about-me-block">
+        <img src="{{ '/assets/img/alessio-di-salvo.png' | url }}" alt="Alessio Di Salvo" class="about-me-photo" />
+        <a href="https://alessiodisalvo.it" target="_blank" rel="noopener noreferrer" class="about-me-link">Discover more about me on alessiodisalvo.it</a>
       </div>
 
       <h3 class="sidebar-title">Recent articles</h3>
       <ol class="post-list" reversed>
         {% for post in collections.postsEn %}
           {% if loop.index0 > 0 and loop.index0 <= 5 %}
+          {% set thumb = post.date | postImagePath(post.data.slug) %}
           <li class="post-card">
-            <time class="post-card-date" datetime="{{ post.date | isoDate }}">
-              {{ post.date | readableDate }}
-            </time>
-            <a href="{{ post.url | url }}" class="post-card-title">{{ post.data.title }}</a>
-            
-            {# ── Tags for post card ── #}
-            {% if post.data.postTags and post.data.postTags.length %}
-            <div class="tag-cloud" style="margin-top: 0.25rem; margin-bottom: 0.25rem;">
-              {% for t in post.data.postTags %}
-              <a href="{{ ('/en/tags/' + t + '/') | url }}" class="tag-pill">{{ t }}</a>
-              {% endfor %}
-            </div>
+            {% if thumb %}
+            <a href="{{ post.url | url }}" class="post-card-thumb-link" tabindex="-1" aria-hidden="true">
+              <img src="{{ thumb | url }}" alt="{{ post.data.title }}" class="post-card-thumb" />
+            </a>
             {% endif %}
+            <div class="post-card-content">
+              <time class="post-card-date" datetime="{{ post.date | isoDate }}">
+                {{ post.date | readableDate }}
+              </time>
+              <a href="{{ post.url | url }}" class="post-card-title">{{ post.data.title }}</a>
 
-            {% if post.data.description %}
-            <p class="post-card-desc">{{ post.data.description }}</p>
-            {% endif %}
+              {# ── Tags for post card ── #}
+              {% if post.data.postTags and post.data.postTags.length %}
+              <div class="tag-cloud" style="margin-top: 0.25rem; margin-bottom: 0.25rem;">
+                {% for t in post.data.postTags %}
+                <a href="{{ ('/en/tags/' + t + '/') | url }}" class="tag-pill">{{ t }}</a>
+                {% endfor %}
+              </div>
+              {% endif %}
+
+              {% if post.data.description %}
+              <p class="post-card-desc">{{ post.data.description }}</p>
+              {% endif %}
+            </div>
           </li>
           {% endif %}
         {% endfor %}

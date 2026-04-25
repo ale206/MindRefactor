@@ -21,6 +21,12 @@
   <meta property="og:type" content="{% if layout == 'article' %}article{% else %}website{% endif %}" />
   <meta property="og:url" content="{{ site.url }}{{ page.url }}" />
   <meta property="og:site_name" content="Mind Refactor" />
+  {% if slug and date %}
+  {% set _ogImage = date | postImagePath(slug) %}
+  {% if _ogImage %}
+  <meta property="og:image" content="{{ site.url }}{{ _ogImage }}" />
+  {% endif %}
+  {% endif %}
 
   <link rel="stylesheet" href="{{ '/css/blog.css' | url }}" />
   <link rel="icon" href="{{ '/assets/favicon/favicon.ico' | url }}" sizes="32x32" />
