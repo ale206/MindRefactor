@@ -7,6 +7,9 @@
   <title>{% if title and title != site.title %}{{ title }} — {{ site.title }}{% else %}{{ site.title }}{% endif %}</title>
   <meta name="description" content="{{ description | default(site.description) }}" />
 
+  {# ── Canonical URL ── #}
+  <link rel="canonical" href="{{ site.url }}{{ page.url }}" />
+
   {# ── hreflang alternate links (set in article frontmatter) ── #}
   {% if translations %}
     {% for t in translations %}
@@ -15,17 +18,75 @@
     <link rel="alternate" hreflang="x-default" href="{{ site.url }}/en/" />
   {% endif %}
 
+  {# ── RSS feed ── #}
+  <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ site.url }}/feed.xml" />
+
+  {# ── Resolve OG image ── #}
+  {% if slug and date %}
+    {% set _ogImage = date | postImagePath(slug) %}
+  {% endif %}
+  {% if not _ogImage %}
+    {% set _ogImage = "/assets/img/mind-refactor-home.png" %}
+  {% endif %}
+
   {# ── Open Graph ── #}
   <meta property="og:title" content="{{ title | default(site.title) }}" />
   <meta property="og:description" content="{{ description | default(site.description) }}" />
-  <meta property="og:type" content="{% if layout == 'article' %}article{% else %}website{% endif %}" />
+  <meta property="og:type" content="{% if layout == 'article.njk' %}article{% else %}website{% endif %}" />
   <meta property="og:url" content="{{ site.url }}{{ page.url }}" />
-  <meta property="og:site_name" content="Mind Refactor" />
-  {% if slug and date %}
-  {% set _ogImage = date | postImagePath(slug) %}
-  {% if _ogImage %}
+  <meta property="og:site_name" content="{{ site.title }}" />
+  <meta property="og:locale" content="en_US" />
   <meta property="og:image" content="{{ site.url }}{{ _ogImage }}" />
-  {% endif %}
+  <meta property="og:image:alt" content="{{ title | default(site.title) }}" />
+
+  {# ── Twitter Card ── #}
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="{{ title | default(site.title) }}" />
+  <meta name="twitter:description" content="{{ description | default(site.description) }}" />
+  <meta name="twitter:image" content="{{ site.url }}{{ _ogImage }}" />
+
+  {# ── JSON-LD Structured Data ── #}
+  {% if layout == "article.njk" %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "{{ title }}",
+    "description": "{{ description | default('') }}",
+    "datePublished": "{{ date | isoDate }}",
+    "dateModified": "{{ date | isoDate }}",
+    "author": {
+      "@type": "Person",
+      "name": "{{ site.author.name }}",
+      "url": "{{ site.author.url }}"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "{{ site.title }}",
+      "url": "{{ site.url }}"
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "{{ site.url }}{{ page.url }}"
+    }{% if _ogImage != "/assets/img/mind-refactor-home.png" %},
+    "image": "{{ site.url }}{{ _ogImage }}"{% endif %}
+  }
+  </script>
+  {% else %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "{{ site.title }}",
+    "description": "{{ site.description }}",
+    "url": "{{ site.url }}",
+    "author": {
+      "@type": "Person",
+      "name": "{{ site.author.name }}",
+      "url": "{{ site.author.url }}"
+    }
+  }
+  </script>
   {% endif %}
 
   <link rel="stylesheet" href="{{ '/css/blog.css' | url }}" />

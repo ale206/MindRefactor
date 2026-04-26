@@ -1,7 +1,18 @@
 const fs = require("fs");
 const path = require("path");
+const pluginRss = require("@11ty/eleventy-plugin-rss");
 
 module.exports = function (eleventyConfig) {
+
+  // ─── Plugins ──────────────────────────────────────────────────────────
+  eleventyConfig.addPlugin(pluginRss);
+
+  // ─── Utility filters ──────────────────────────────────────────────────
+  // Limit an array to the first N items (used in feed.njk)
+  eleventyConfig.addFilter("head", (array, n) => {
+    if (!Array.isArray(array)) return array;
+    return n < 0 ? array.slice(n) : array.slice(0, n);
+  });
 
   // ─── Passthrough: existing landing page assets ──────────────────────────
   // NOTE: index.html is intentionally NOT in passthrough — Eleventy processes it
