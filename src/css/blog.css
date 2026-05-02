@@ -302,9 +302,8 @@ img { max-width: 100%; display: block; }
 }
 
 .featured-header {
-  margin-bottom: 2rem;
-  padding-bottom: 1.5rem;
-  border-bottom: 1px solid var(--color-border);
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.4rem;
 }
 .featured-header time {
   font-size: 0.85rem;
@@ -633,16 +632,14 @@ img { max-width: 100%; display: block; }
 .featured-hero-image {
   width: 100%;
   max-width: 100%;
-  aspect-ratio: 16 / 9;
-  overflow: hidden;
   border-radius: calc(var(--radius) * 2);
-  margin-bottom: 1.75rem;
+  margin-bottom: 0;
   border: 1px solid var(--color-border);
+  overflow: hidden;
 }
 .featured-hero-image img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
   display: block;
 }
 
