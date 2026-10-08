@@ -1,6 +1,6 @@
 module.exports = {
-  title: "Mind Refactor",
-  description: "Exploring how technology reshapes our world | Insights on Programming, Startups, Management & Leadership",
+  title: "MindRefactor",
+  description: "Essays on software engineering, AI, and leading engineering teams by Alessio Di Salvo.",
   url: "https://mindrefactor.com",
   author: {
     name: "Alessio Di Salvo",
@@ -11,4 +11,3 @@ module.exports = {
   ],
   currentYear: new Date().getFullYear()
 };
-

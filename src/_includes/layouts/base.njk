@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>{% if title and title != site.title %}{{ title }} — {{ site.title }}{% else %}{{ site.title }}{% endif %}</title>
-  <meta name="description" content="{{ description | default(site.description) }}" />
+  <meta name="description" content="{{ description | default(site.description) | trim }}" />
 
   {# ── Canonical URL ── #}
   <link rel="canonical" href="{{ site.url }}{{ page.url }}" />
@@ -31,7 +31,7 @@
 
   {# ── Open Graph ── #}
   <meta property="og:title" content="{{ title | default(site.title) }}" />
-  <meta property="og:description" content="{{ description | default(site.description) }}" />
+  <meta property="og:description" content="{{ description | default(site.description) | trim }}" />
   <meta property="og:type" content="{% if layout == 'article.njk' %}article{% else %}website{% endif %}" />
   <meta property="og:url" content="{{ site.url }}{{ page.url }}" />
   <meta property="og:site_name" content="{{ site.title }}" />
@@ -42,7 +42,7 @@
   {# ── Twitter Card ── #}
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="{{ title | default(site.title) }}" />
-  <meta name="twitter:description" content="{{ description | default(site.description) }}" />
+  <meta name="twitter:description" content="{{ description | default(site.description) | trim }}" />
   <meta name="twitter:image" content="{{ site.url }}{{ _ogImage }}" />
 
   {# ── JSON-LD Structured Data ── #}
@@ -51,25 +51,25 @@
   {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
-    "headline": "{{ title }}",
-    "description": "{{ description | default('') }}",
-    "datePublished": "{{ date | isoDate }}",
-    "dateModified": "{{ date | isoDate }}",
+    "headline": {{ title | jsonForHtml | safe }},
+    "description": {{ description | default('') | trim | jsonForHtml | safe }},
+    "datePublished": {{ date | isoDate | jsonForHtml | safe }},
+    {% if updated %}"dateModified": {{ updated | isoDate | jsonForHtml | safe }},{% endif %}
     "author": {
       "@type": "Person",
-      "name": "{{ site.author.name }}",
-      "url": "{{ site.author.url }}"
+      "name": {{ site.author.name | jsonForHtml | safe }},
+      "url": {{ site.author.url | jsonForHtml | safe }}
     },
     "publisher": {
       "@type": "Organization",
-      "name": "{{ site.title }}",
-      "url": "{{ site.url }}"
+      "name": {{ site.title | jsonForHtml | safe }},
+      "url": {{ site.url | jsonForHtml | safe }}
     },
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": "{{ site.url }}{{ page.url }}"
+      "@id": {{ (site.url + page.url) | jsonForHtml | safe }}
     }{% if _ogImage != "/assets/img/mind-refactor-home.png" %},
-    "image": "{{ site.url }}{{ _ogImage }}"{% endif %}
+    "image": {{ (site.url + _ogImage) | jsonForHtml | safe }}{% endif %}
   }
   </script>
   {% else %}
@@ -77,13 +77,13 @@
   {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "name": "{{ site.title }}",
-    "description": "{{ site.description }}",
-    "url": "{{ site.url }}",
+    "name": {{ site.title | jsonForHtml | safe }},
+    "description": {{ site.description | jsonForHtml | safe }},
+    "url": {{ site.url | jsonForHtml | safe }},
     "author": {
       "@type": "Person",
-      "name": "{{ site.author.name }}",
-      "url": "{{ site.author.url }}"
+      "name": {{ site.author.name | jsonForHtml | safe }},
+      "url": {{ site.author.url | jsonForHtml | safe }}
     }
   }
   </script>
@@ -115,7 +115,7 @@
 
   <header class="site-header">
     <div class="header-inner">
-      <a href="{{ '/' | url }}" class="brand" aria-label="MindRefactor home">
+      <a href="{{ '/en/' | url }}" class="brand" aria-label="MindRefactor home">
         <img
           src="{{ '/assets/img/mind-refactor-logo-banner.png' | url }}"
           alt="Mind Refactor"
@@ -123,6 +123,8 @@
         />
       </a>
       <nav class="header-nav" aria-label="Site navigation">
+        <a href="{{ '/en/' | url }}">Home</a>
+        <a href="{{ '/en/articles/' | url }}">All articles</a>
       </nav>
     </div>
   </header>
@@ -134,7 +136,7 @@
   <footer class="site-footer">
     <div class="footer-inner">
       <p class="footer-brand">
-        <a href="{{ '/' | url }}">MindRefactor</a>
+        <a href="{{ '/en/' | url }}">MindRefactor</a>
       </p>
       <p class="footer-copy">&copy; {{ site.currentYear }} MindRefactor. All rights reserved.</p>
     </div>
@@ -142,4 +144,3 @@
 
 </body>
 </html>
-

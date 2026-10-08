@@ -9,22 +9,25 @@ eleventyExcludeFromCollections: true
   {# ── Static pages ─────────────────────────────────────── #}
   <url>
     <loc>{{ site.url }}/en/</loc>
-    <changefreq>daily</changefreq>
-    <priority>1.0</priority>
   </url>
 
   <url>
     <loc>{{ site.url }}/en/articles/</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.8</priority>
   </url>
+
+  {# Additional archive pages contain different articles. #}
+  {% for post in collections.postsEn %}
+  {% if loop.index0 > 0 and loop.index0 % 12 == 0 %}
+  <url>
+    <loc>{{ site.url }}/en/articles/{{ (loop.index0 / 12) + 1 }}/</loc>
+  </url>
+  {% endif %}
+  {% endfor %}
 
   {# ── Tag pages ─────────────────────────────────────────── #}
   {% for item in collections.tagListEn %}
   <url>
     <loc>{{ site.url }}/en/tags/{{ item.tag }}/</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
   </url>
   {% endfor %}
 
@@ -32,11 +35,8 @@ eleventyExcludeFromCollections: true
   {% for post in collections.postsEn %}
   <url>
     <loc>{{ site.url }}{{ post.url }}</loc>
-    <lastmod>{{ post.date | isoDate }}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <lastmod>{{ (post.data.updated or post.date) | isoDate }}</lastmod>
   </url>
   {% endfor %}
 
 </urlset>
-

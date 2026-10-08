@@ -19,6 +19,7 @@ module.exports = function (eleventyConfig) {
   //       as a Nunjucks template so the url filter can inject the correct base path.
   eleventyConfig.addPassthroughCopy("src/CNAME");
   eleventyConfig.addPassthroughCopy("src/assets");
+  eleventyConfig.addPassthroughCopy({ "src/assets/favicon/favicon.ico": "favicon.ico" });
   eleventyConfig.addPassthroughCopy("src/legal");
   eleventyConfig.addPassthroughCopy("src/auth");
   eleventyConfig.addPassthroughCopy("src/download");
@@ -46,6 +47,14 @@ module.exports = function (eleventyConfig) {
     const d = dateObj instanceof Date ? dateObj : new Date(dateObj);
     return d.toISOString().slice(0, 10);
   });
+
+  // JSON-LD values must be valid JSON and safe inside an HTML script element.
+  eleventyConfig.addFilter("jsonForHtml", (value) =>
+    JSON.stringify(value)
+      .replace(/</g, "\\u003c")
+      .replace(/>/g, "\\u003e")
+      .replace(/&/g, "\\u0026")
+  );
 
   // Returns the URL path to the article's hero image if it exists, or "" if not.
   // Convention: /assets/img/YYYY/MM/{slug}.png|.webp  (image file in src/assets/img/YYYY/MM/)
@@ -102,4 +111,3 @@ module.exports = function (eleventyConfig) {
     },
   };
 };
-

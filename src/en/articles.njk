@@ -1,8 +1,9 @@
 ---
 layout: base.njk
-title: All Articles
 lang: en
-description: Complete list of Mind Refactor articles.
+eleventyComputed:
+  title: "All Articles{% if pagination.pageNumber > 0 %} — Page {{ pagination.pageNumber + 1 }}{% endif %}"
+  description: "Browse MindRefactor articles on software engineering, AI, and leadership{% if pagination.pageNumber > 0 %}, page {{ pagination.pageNumber + 1 }}{% endif %}."
 pagination:
   data: collections.postsEn
   size: 12
@@ -40,7 +41,7 @@ permalink: "/en/articles/{% if pagination.pageNumber > 0 %}{{ pagination.pageNum
 
       {% if thumb %}
       <a href="{{ post.url | url }}" class="archive-item-thumb-link" tabindex="-1" aria-hidden="true">
-        <img src="{{ thumb | url }}" alt="{{ post.data.title }}" class="archive-item-thumb" />
+        <img src="{{ thumb | url }}" alt="{{ post.data.title }}" class="archive-item-thumb" loading="lazy" decoding="async" />
       </a>
       {% endif %}
     </li>
@@ -77,4 +78,3 @@ permalink: "/en/articles/{% if pagination.pageNumber > 0 %}{{ pagination.pageNum
   {% endif %}
 
 </section>
-

@@ -1,13 +1,20 @@
 ---
 layout: base.njk
-title: Mind Refactor
+title: Software Engineering, AI and Leadership
 lang: en
-description: Product updates and essays on software, product thinking, and building in public.
+description: Essays on software engineering, AI, and leading engineering teams by Alessio Di Salvo.
 permalink: /en/index.html
 ---
 {% from "macros/tagcloud.njk" import tagCloud %}
 
 <section class="post-list-page">
+
+  <header class="post-list-header">
+    <div class="post-list-header-content">
+      <h1>Software engineering, AI, and leadership</h1>
+      <p class="post-list-tagline">MindRefactor is where I share what I learn from building software and leading engineering teams. I write about AI, architecture, and the decisions that help teams do better work.</p>
+    </div>
+  </header>
 
   {% set latestPost = collections.postsEn[0] %}
 
@@ -38,7 +45,8 @@ permalink: /en/index.html
         </div>
       </header>
       <div class="article-body">
-        {{ latestPost.templateContent | safe }}
+        <p>{{ latestPost.data.description | trim }}</p>
+        <p><a href="{{ latestPost.url | url }}">Read the full article →</a></p>
       </div>
     </article>
 
@@ -47,7 +55,7 @@ permalink: /en/index.html
       
       <h3 class="sidebar-title" style="margin-top:1.75rem;">About me</h3>
       <div class="about-me-block">
-        <img src="{{ '/assets/img/alessio-di-salvo.png' | url }}" alt="Alessio Di Salvo" class="about-me-photo" />
+        <img src="{{ '/assets/img/alessio-di-salvo.png' | url }}" alt="Alessio Di Salvo" class="about-me-photo" loading="lazy" decoding="async" />
         <a href="https://alessiodisalvo.it" target="_blank" rel="noopener noreferrer" class="about-me-link">Discover more about me on alessiodisalvo.it</a>
       </div>
 
@@ -59,7 +67,7 @@ permalink: /en/index.html
           <li class="post-card">
             {% if thumb %}
             <a href="{{ post.url | url }}" class="post-card-thumb-link" tabindex="-1" aria-hidden="true">
-              <img src="{{ thumb | url }}" alt="{{ post.data.title }}" class="post-card-thumb" />
+              <img src="{{ thumb | url }}" alt="{{ post.data.title }}" class="post-card-thumb" loading="lazy" decoding="async" />
             </a>
             {% endif %}
             <div class="post-card-content">

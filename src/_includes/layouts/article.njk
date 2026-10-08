@@ -10,6 +10,7 @@ layout: base.njk
     <header class="featured-header article-header">
       <div class="article-meta">
         <time datetime="{{ date | isoDate }}">{{ date | readableDate("en-GB") }}</time>
+        {% if updated %}<time datetime="{{ updated | isoDate }}">Updated {{ updated | readableDate("en-GB") }}</time>{% endif %}
       </div>
 
       <h1 class="article-title">{{ title }}</h1>
@@ -54,7 +55,7 @@ layout: base.njk
 
     <h3 class="sidebar-title" style="margin-top:1.75rem;">About me</h3>
     <div class="about-me-block">
-      <img src="{{ '/assets/img/alessio-di-salvo.png' | url }}" alt="Alessio Di Salvo" class="about-me-photo" />
+      <img src="{{ '/assets/img/alessio-di-salvo.png' | url }}" alt="Alessio Di Salvo" class="about-me-photo" loading="lazy" decoding="async" />
       <a href="https://alessiodisalvo.it" target="_blank" rel="noopener noreferrer" class="about-me-link">Discover more about me on alessiodisalvo.it</a>
     </div>
 
@@ -65,7 +66,7 @@ layout: base.njk
         <li class="post-card">
           {% if thumb %}
           <a href="{{ post.url | url }}" class="post-card-thumb-link" tabindex="-1" aria-hidden="true">
-            <img src="{{ thumb | url }}" alt="{{ post.data.title }}" class="post-card-thumb" />
+            <img src="{{ thumb | url }}" alt="{{ post.data.title }}" class="post-card-thumb" loading="lazy" decoding="async" />
           </a>
           {% endif %}
           <div class="post-card-content">
