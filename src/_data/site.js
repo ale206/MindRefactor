@@ -1,6 +1,6 @@
 module.exports = {
   title: "MindRefactor",
-  description: "Essays on software engineering, AI, and leading engineering teams by Alessio Di Salvo.",
+  description: "A publication about programming, Agile, management, leadership, and career advice, where I share insights and experiences from the tech world.",
   url: "https://mindrefactor.com",
   author: {
     name: "Alessio Di Salvo",

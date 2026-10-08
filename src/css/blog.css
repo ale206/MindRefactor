@@ -489,6 +489,9 @@ img { max-width: 100%; display: block; }
   gap: 0.6rem;
   margin-bottom: 0.75rem;
 }
+.post-list-header .home-title {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+}
 .lang-label {
   display: inline-block;
   font-size: 0.7rem;
@@ -862,5 +865,4 @@ img { max-width: 100%; display: block; }
 
   .footer-inner { flex-direction: column; align-items: flex-start; }
 }
-
 
