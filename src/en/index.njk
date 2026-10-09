@@ -9,45 +9,47 @@ permalink: /en/index.html
 
 <section class="post-list-page">
 
-  <header class="post-list-header home-intro-header">
-    <div class="post-list-header-content">
-      <h1 class="home-intro">Mind Refactor is a publication about programming, Agile, management, leadership, and career advice, where I share insights and experiences from the tech world. I write about what I see while building software and working with teams, including the choices that help people learn, work better together, and grow in their careers.</h1>
-    </div>
-  </header>
-
   {% set latestPost = collections.postsEn[0] %}
 
   {% if latestPost %}
   {% set featuredImage = latestPost.date | postImagePath(latestPost.data.slug) %}
   <div class="blog-split-layout">
 
-    <article class="featured-post">
-      <header class="featured-header">
-        <time datetime="{{ latestPost.date | isoDate }}">{{ latestPost.date | readableDate }}</time>
-        <h2><a href="{{ latestPost.url | url }}">{{ latestPost.data.title }}</a></h2>
-
-        {# ── Tags for featured post ── #}
-        {% if latestPost.data.postTags and latestPost.data.postTags.length %}
-        <div class="article-tags" style="margin-top: 0.5rem; margin-bottom: 1.5rem;">
-          {% for t in latestPost.data.postTags %}
-          <a href="{{ ('/en/tags/' + t + '/') | url }}" class="tag-pill">{{ t }}</a>
-          {% endfor %}
-        </div>
-        {% endif %}
-
-        {# ── Featured image (after tags) ── #}
-        <div class="featured-hero-image">
-          <img
-            src="{{ (featuredImage if featuredImage else '/assets/img/mind-refactor-home.png') | url }}"
-            alt="{{ latestPost.data.title }}"
-          />
+    <section class="featured-post">
+      <header class="post-list-header home-intro-header">
+        <div class="post-list-header-content">
+          <h1 class="home-intro">Mind Refactor is a publication about programming, Agile, management, leadership, and career advice, where I share insights and experiences from the tech world. I write about what I see while building software and working with teams, including the choices that help people learn, work better together, and grow in their careers.</h1>
         </div>
       </header>
-      <div class="article-body">
-        <p>{{ latestPost.data.description | trim }}</p>
-        <p><a href="{{ latestPost.url | url }}">Read the full article →</a></p>
-      </div>
-    </article>
+
+      <article>
+        <header class="featured-header">
+          <time datetime="{{ latestPost.date | isoDate }}">{{ latestPost.date | readableDate }}</time>
+          <h2><a href="{{ latestPost.url | url }}">{{ latestPost.data.title }}</a></h2>
+
+          {# ── Tags for featured post ── #}
+          {% if latestPost.data.postTags and latestPost.data.postTags.length %}
+          <div class="article-tags" style="margin-top: 0.5rem; margin-bottom: 1.5rem;">
+            {% for t in latestPost.data.postTags %}
+            <a href="{{ ('/en/tags/' + t + '/') | url }}" class="tag-pill">{{ t }}</a>
+            {% endfor %}
+          </div>
+          {% endif %}
+
+          {# ── Featured image (after tags) ── #}
+          <div class="featured-hero-image">
+            <img
+              src="{{ (featuredImage if featuredImage else '/assets/img/mind-refactor-home.png') | url }}"
+              alt="{{ latestPost.data.title }}"
+            />
+          </div>
+        </header>
+        <div class="article-body">
+          <p>{{ latestPost.data.description | trim }}</p>
+          <p><a href="{{ latestPost.url | url }}">Read the full article →</a></p>
+        </div>
+      </article>
+    </section>
 
     <aside class="sidebar-posts">
       {{ tagCloud(collections.tagListEn, "en") }}
