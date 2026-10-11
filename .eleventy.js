@@ -14,6 +14,12 @@ module.exports = function (eleventyConfig) {
     return n < 0 ? array.slice(n) : array.slice(0, n);
   });
 
+  // Show the opening paragraphs of each article on the home page.
+  eleventyConfig.addFilter("openingParagraphs", (html, count = 4) => {
+    const paragraphs = String(html || "").match(/<p(?:\s[^>]*)?>[\s\S]*?<\/p>/gi) || [];
+    return paragraphs.slice(0, count).join("\n");
+  });
+
   // ─── Passthrough: existing landing page assets ──────────────────────────
   // NOTE: index.html is intentionally NOT in passthrough — Eleventy processes it
   //       as a Nunjucks template so the url filter can inject the correct base path.
