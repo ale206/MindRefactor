@@ -9,10 +9,9 @@ permalink: /en/index.html
 
 <section class="post-list-page">
 
-  {% set latestPost = collections.postsEn[0] %}
+  {% set homePosts = collections.postsEn | head(2) %}
 
-  {% if latestPost %}
-  {% set featuredImage = latestPost.date | postImagePath(latestPost.data.slug) %}
+  {% if homePosts.length %}
   <div class="blog-split-layout">
 
     <section class="featured-post">
@@ -22,33 +21,40 @@ permalink: /en/index.html
         </div>
       </header>
 
-      <article>
+      {% for post in homePosts %}
+      {% set featuredImage = post.date | postImagePath(post.data.slug) %}
+      <article class="home-article">
         <header class="featured-header">
-          <time datetime="{{ latestPost.date | isoDate }}">{{ latestPost.date | readableDate }}</time>
-          <h2><a href="{{ latestPost.url | url }}">{{ latestPost.data.title }}</a></h2>
+          <time datetime="{{ post.date | isoDate }}">{{ post.date | readableDate }}</time>
+          <h2><a href="{{ post.url | url }}">{{ post.data.title }}</a></h2>
 
           {# ── Tags for featured post ── #}
-          {% if latestPost.data.postTags and latestPost.data.postTags.length %}
+          {% if post.data.postTags and post.data.postTags.length %}
           <div class="article-tags" style="margin-top: 0.5rem; margin-bottom: 1.5rem;">
-            {% for t in latestPost.data.postTags %}
+            {% for t in post.data.postTags %}
             <a href="{{ ('/en/tags/' + t + '/') | url }}" class="tag-pill">{{ t }}</a>
             {% endfor %}
           </div>
           {% endif %}
 
           {# ── Featured image (after tags) ── #}
+          {% if featuredImage %}
           <div class="featured-hero-image">
             <img
-              src="{{ (featuredImage if featuredImage else '/assets/img/mind-refactor-home.png') | url }}"
-              alt="{{ latestPost.data.title }}"
+              src="{{ featuredImage | url }}"
+              alt="{{ post.data.title }}"
+              {% if loop.index0 > 0 %}loading="lazy"{% endif %}
+              decoding="async"
             />
           </div>
+          {% endif %}
         </header>
         <div class="article-body">
-          <p>{{ latestPost.data.description | trim }}</p>
-          <p><a href="{{ latestPost.url | url }}">Read the full article →</a></p>
+          {{ post.templateContent | safe }}
+          <p class="home-full-article-link"><a href="{{ post.url | url }}">Open article page →</a></p>
         </div>
       </article>
+      {% endfor %}
     </section>
 
     <aside class="sidebar-posts">
@@ -63,7 +69,7 @@ permalink: /en/index.html
       <h3 class="sidebar-title">Recent articles</h3>
       <ol class="post-list" reversed>
         {% for post in collections.postsEn %}
-          {% if loop.index0 > 0 and loop.index0 <= 5 %}
+          {% if loop.index0 > 1 and loop.index0 <= 6 %}
           {% set thumb = post.date | postImagePath(post.data.slug) %}
           <li class="post-card">
             {% if thumb %}
